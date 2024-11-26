@@ -12,8 +12,9 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import torch
 from torchvision import transforms
-from model.utils import *
+#from model.utils import *
 from model.Unet import Unet
+from model.different_datasets import *
 import torch.optim as optim
 from torch.optim import lr_scheduler
 from model.Unet import Unet
@@ -33,11 +34,15 @@ if __name__ == "__main__":
 
     ]
     )
-
-    train_set=TrainSetLoader(args.train_dataset_dir,train_img_ids,transform=input_transform)
-    test_set=TestSetLoader(args.test_dataset_dir,test_img_ids,transform=input_transform)
-    train_data =DataLoader(dataset=train_set, batch_size=1, shuffle=True, num_workers=4,drop_last=True)
-    test_data = DataLoader(dataset=test_set, batch_size=1, shuffle=True, num_workers=4,drop_last=True)
+    train_set = TrainSetLoader(dataset_dir="D:\AweIRmodule",dataset_name="NUDT-SIRST", patch_size=256,
+                               img_norm_cfg = dict(mean=107.80905151367188, std=33.02274703979492))
+    train_data = DataLoader(dataset=train_set, num_workers=1, batch_size=1, shuffle=True)
+    test_set = TestSetLoader(dataset_dir="D:\AweIRmodule", train_dataset_name="NUDT-SIRST",test_dataset_name="NUDT-SIRST",img_norm_cfg=dict(mean=107.80905151367188, std=33.02274703979492))
+    test_data = DataLoader(dataset=test_set, num_workers=1, batch_size=1, shuffle=False)
+    # train_set=TrainSetLoader(args.train_dataset_dir,train_img_ids,transform=input_transform)
+    # test_set=TestSetLoader(args.test_dataset_dir,test_img_ids,transform=input_transform)
+    # train_data =DataLoader(dataset=train_set, batch_size=1, shuffle=True, num_workers=4,drop_last=True)
+    # test_data = DataLoader(dataset=test_set, batch_size=1, shuffle=True, num_workers=4,drop_last=True)
 
     model=Unet()
     model=model.cuda()

@@ -6,3 +6,13 @@ epoch: 4.000000:	train_loss: 0.997979:	test_loss: 0.998030:
 epoch: 5.000000:	train_loss: 0.997698:	test_loss: 0.997817:	
 epoch: 6.000000:	train_loss: 0.997113:	test_loss: 0.997184:	
 epoch: 7.000000:	train_loss: 0.996604:	test_loss: 0.996777:	
+epoch: 0.000000:	train_loss: 0.998857:	test_loss: 0.998801:	
+epoch: 1.000000:	train_loss: 0.998403:	test_loss: 0.998384:	
+epoch: 2.000000:	train_loss: 0.997829:	test_loss: 0.997807:	
+epoch: 0.000000:	train_loss: 0.997889:	test_loss: 0.998033:	
+epoch: 1.000000:	train_loss: 0.996387:	test_loss: 0.996781:	
+epoch: 2.000000:	train_loss: 0.994493:	test_loss: 0.994900:	
+epoch: 3.000000:	train_loss: 0.991910:	test_loss: 0.992925:	
+epoch: 4.000000:	train_loss: 0.988373:	test_loss: 0.989815:	
+epoch: 5.000000:	train_loss: 0.983551:	test_loss: 0.985314:	
+epoch: 6.000000:	train_loss: 0.976691:	test_loss: 0.981387:	

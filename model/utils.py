@@ -21,7 +21,7 @@ import torch.nn
 import argparse
 import shutil
 from  matplotlib  import pyplot as plt
-from parse_args_mytrain import parse_args
+#from parse_args_mytrain import parse_args
 import os.path as osp
 import cv2
 def load_image_img(srcpath):
@@ -74,7 +74,7 @@ class TrainSetLoader(Dataset):
         self.base_size   = base_size
         self.crop_size   = crop_size
         self.suffix      = suffix
-
+        self.aug = augumentation()
 
 
     def _sync_transform(self, img, mask, img_id):
@@ -82,6 +82,12 @@ class TrainSetLoader(Dataset):
         if random.random() < 0.5:
             img   = img.transpose(Image.FLIP_LEFT_RIGHT)
             mask  = mask.transpose(Image.FLIP_LEFT_RIGHT)
+        # if random.random() < 0.5:
+        #     img = img[::-1, :]
+        #     mask = mask[::-1, :]
+        # if random.random() < 0.5:
+        #     img = img[:, ::-1]
+        #     mask = mask[:, ::-1]
 
 
 
@@ -134,7 +140,6 @@ class TrainSetLoader(Dataset):
             img = self.transform(img)
 
         mask = np.expand_dims(mask[:,:,0] if len(np.shape(mask))>2 else mask, axis=0).astype('float32')/ 255.0
-
 
         return img, torch.from_numpy(mask)  #img_id[-1]
 
@@ -692,6 +697,57 @@ class SIRST(object):
 
     def __len__(self):
         return len(self.names)
+
+
+class augumentation(object):
+    def __call__(self, input, target):
+        if random.random()<0.5:
+            input = input[::-1, :]
+            target = target[::-1, :]
+        if random.random()<0.5:
+            input = input[:, ::-1]
+            target = target[:, ::-1]
+        if random.random()<0.5:
+            input = input.transpose(1, 0)
+            target = target.transpose(1, 0)
+        return input, target
+
+
+def random_crop(img, mask, patch_size, pos_prob=None):
+    h, w = img.shape
+    if min(h, w) < patch_size:
+        img = np.pad(img, ((0, max(h, patch_size) - h), (0, max(w, patch_size) - w)), mode='constant')
+        mask = np.pad(mask, ((0, max(h, patch_size) - h), (0, max(w, patch_size) - w)), mode='constant')
+        h, w = img.shape
+
+    cur_prob = random.random()
+    if pos_prob == None or cur_prob > pos_prob or mask.max() == 0:
+        h_start = random.randint(0, h - patch_size)
+        w_start = random.randint(0, w - patch_size)
+    else:
+        loc = np.where(mask > 0)
+        if len(loc[0]) <= 1:
+            idx = 0
+        else:
+            idx = random.randint(0, len(loc[0]) - 1)
+        h_start = random.randint(max(0, loc[0][idx] - patch_size), min(loc[0][idx], h - patch_size))
+        w_start = random.randint(max(0, loc[1][idx] - patch_size), min(loc[1][idx], w - patch_size))
+
+    h_end = h_start + patch_size
+    w_end = w_start + patch_size
+    img_patch = img[h_start:h_end, w_start:w_end]
+    mask_patch = mask[h_start:h_end, w_start:w_end]
+
+    return img_patch, mask_patch
+
+
+def Normalized(img, img_norm_cfg):
+    return (img - img_norm_cfg['mean']) / img_norm_cfg['std']
+
+
+def Denormalization(img, img_norm_cfg):
+    return img * img_norm_cfg['std'] + img_norm_cfg['mean']
+
 
 
 # if __name__ == '__main__':

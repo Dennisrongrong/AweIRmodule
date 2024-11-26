@@ -18,11 +18,12 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import torch
 from torchvision import transforms
-from model.utils import *
+from model.Basic_utils import *
 import torch.optim as optim
 from torch.optim import lr_scheduler
 from parse_args_mytest import parse_args
 from model.Unet import Unet
+from model.different_datasets import *
 if __name__ == "__main__":
     args = parse_args()
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpus
@@ -36,10 +37,13 @@ if __name__ == "__main__":
         transforms.Normalize(mean_value,std_value)
     ]
     )
-    test_set=InferenceSetLoader(args.test_dataset_dir,test_img_ids,transform=input_transform)
-
-    test_data = DataLoader(dataset=test_set, batch_size=1, shuffle=True, num_workers=4,drop_last=True)
-
+    # test_set=InferenceSetLoader(args.test_dataset_dir,test_img_ids,transform=input_transform)
+    #
+    # test_data = DataLoader(dataset=test_set, batch_size=1, shuffle=True, num_workers=4,drop_last=True)
+    test_set = TestSetLoader(dataset_dir="D:\AweIRmodule", train_dataset_name="NUDT-SIRST",
+                             test_dataset_name="NUDT-SIRST",
+                             img_norm_cfg=dict(mean=107.80905151367188, std=33.02274703979492))
+    test_data = DataLoader(dataset=test_set, num_workers=1, batch_size=1, shuffle=False)
 
     best_iou=0
     epochs=10

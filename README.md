@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# AweIRmodule
-=======
+
 # 深度学习网络常用模块代码汇总（红外网络）
 ### 卷积模块-AwesomeConv
 ### 注意力机制模块-AwesomeAttention
@@ -10,4 +8,4 @@
 ### 红外网络汇总-AwesomeNet
 
 
->>>>>>> f3077f8 (AwesomeModule)
+

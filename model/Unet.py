@@ -146,7 +146,7 @@ class ChannelAttention(nn.Module):
         return self.sigmoid(out)
 
 class Unet(nn.Module):
-    def __init__(self, num_classes=1, input_channels=3, block='Res_block', num_blocks=[8,8,8,8], nb_filter=[1,2,4,8,16]):
+    def __init__(self, num_classes=1, input_channels=1, block='Res_block', num_blocks=[2,2,2,2], nb_filter=[1,2,4,8,16]):
         super(Unet, self).__init__()
         if block == 'Res_block':
             block = Res_block
