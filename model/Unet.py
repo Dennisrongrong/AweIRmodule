@@ -190,9 +190,12 @@ class Unet(nn.Module):
         output = self.final(x0_4)
         return output
 if __name__ == '__main__':
+    print("是否可用：", torch.cuda.is_available())  # 查看GPU是否可用
+    print("GPU数量：", torch.cuda.device_count())  # 查看GPU数量
+    print("torch方法查看CUDA版本：", torch.version.cuda)  # torch方法查看CUDA版本
     net = Unet()
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # 让torch判断是否使用GPU，建议使用GPU环境，因为会快很多
-    DATA = torch.randn(8, 3, 480, 480).to(DEVICE)
+    DATA = torch.randn(8, 1, 480, 480).to(DEVICE)
     net.cuda()
     output = net(DATA)
     print("output:", np.shape(output))
