@@ -10,7 +10,7 @@
 # 目录🚀
 ### 卷积模块-AwesomeConv💻
 - **`说明：各类卷积模块`**  
-  - 贡献者：By Chade Li。
+  - 贡献者：By Chade Li。https://github.com/NOTpass0602/Convolution_block
 
 ### 注意力机制模块-AwesomeAttention🤗
 - **`说明：各类注意力机制模块`**  
