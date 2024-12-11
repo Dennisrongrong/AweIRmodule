@@ -77,6 +77,6 @@ class GlobalContextBlock(nn.Module):
 
 if __name__ == "__main__":
     input = torch.randn(16, 64, 32, 32)  #生成随机数
-    net = GlobalContextBlock(64, ratio=1 / 16) #还是实例化哈
+    net = GlobalContextBlock(64, ratio=1 / 16)
     out = net(input)
-    print(out.shape)
+    print(out.shape)#torch.Size([16, 64, 32, 32])
